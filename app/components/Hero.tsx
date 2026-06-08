@@ -25,6 +25,13 @@ export default function Hero() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
+    // Mobile browsers resize the viewport mid-scroll as the address bar
+    // collapses/expands — without these, that resize fires a refresh in the
+    // middle of the pinned journey and the scrub jumps/detaches. normalizeScroll
+    // also unifies touch vs. wheel input and fixes iOS rubber-band pin glitches.
+    ScrollTrigger.normalizeScroll(true);
+    ScrollTrigger.config({ ignoreMobileResize: true });
+
     const stage = stageRef.current;
     const imageWrap = imageWrapRef.current;
     if (!stage || !imageWrap) return;
@@ -110,7 +117,7 @@ export default function Hero() {
 
   return (
     <section ref={sectionRef} className="relative w-full bg-zinc-950 text-white">
-      <div ref={stageRef} className="relative w-full h-screen overflow-hidden">
+      <div ref={stageRef} className="relative w-full h-dvh overflow-hidden">
 
         {/* Background plane — image kept at its true aspect ratio and
             translated upward through scroll, so its full height is gradually
