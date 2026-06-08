@@ -10,8 +10,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // and grows the further it sits from centre — so the row reads as a gentle
 // circular sweep rather than a flat strip, with the centre receding smaller
 // and the ends looming larger, just like the rim of a wheel curving toward you.
-const ARC_ANGLES = [-34, -22.5, -11, 0, 11, 22.5, 34];
-const ARC_RADIUS = 640;
+const ARC_ANGLES = [-38, -25, -12, 0, 12, 25, 38];
+const ARC_RADIUS = 860;
+const ARC_MAX_ANGLE = 38;
 const CARD_SOURCES = [
   '/images/office2.jpg',
   '/images/office.jpg',
@@ -29,7 +30,7 @@ const ARC_CARDS = ARC_ANGLES.map((angle, i) => {
     angle,
     x: ARC_RADIUS * Math.sin(rad),
     y: ARC_RADIUS * (1 - Math.cos(rad)),
-    scale: 0.7 + (Math.abs(angle) / 34) * 0.5,
+    scale: 0.66 + (Math.abs(angle) / ARC_MAX_ANGLE) * 0.56,
     z: 100 - Math.round(Math.abs(angle)),
   };
 });
@@ -107,7 +108,7 @@ export default function About() {
       </div>
 
       {/* Arc of cards along a circle's rim — centre recedes, ends loom larger */}
-      <div className="relative mt-24 md:mt-32 h-[340px] md:h-[480px] flex items-start justify-center">
+      <div className="relative mt-24 md:mt-32 h-[380px] md:h-[560px] flex items-start justify-center overflow-x-clip">
         {ARC_CARDS.map((card, i) => (
           <div
             key={i}
@@ -119,9 +120,9 @@ export default function About() {
           >
             <div
               ref={(el) => { cardRefs.current[i] = el; }}
-              className="relative w-[120px] md:w-[170px] aspect-[4/5] rounded-2xl overflow-hidden border-4 border-white shadow-2xl"
+              className="relative w-[100px] md:w-[150px] aspect-[4/5] rounded-2xl overflow-hidden border-4 border-white shadow-2xl"
             >
-              <Image src={card.src} alt="MGX Campus building" fill sizes="170px" className="object-cover" />
+              <Image src={card.src} alt="MGX Campus building" fill sizes="150px" className="object-cover" />
             </div>
           </div>
         ))}
